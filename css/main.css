@@ -1,0 +1,172 @@
+/* Golabal styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,800&display=swap');
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html {
+    box-sizing: inherit;
+}
+
+:root {
+    --purple: hsl(259, 100%, 65%);
+    --lightRed: hsl(0, 100%, 67%);
+    --white: hsl(0, 0%, 100%);
+    --offWhite: hsl(0, 0%, 94%);
+    --lightGrey: hsl(0, 0%, 94%);
+    --smokeyGrey: hsl(0, 1%, 44%);
+    --offBlack: hsl(0, 0%, 8%);
+    --poppins: 'Poppins', sans-serif;
+    --fontSize: 32px;
+}
+
+::selection {
+    background-color: var(--purple);
+    color: var(--white);
+}
+
+body {
+    margin: 0;
+    padding: 10rem 1.5rem;
+    height: 60vh;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--poppins);
+    background-color: var(--lightGrey);
+}
+
+.wrapper {
+    background-color: var(--white);
+    padding: 2rem 1.5rem;
+    border-radius: 20px 20px 100px 20px;
+    max-width: 600px;
+}
+
+/* Attribution section */
+.attribution { 
+    font-size: 11px; 
+    padding: 4rem;
+    color: var(--smokeyGrey);
+    text-align: center; 
+}
+
+.attribution a { 
+    text-decoration: none;
+    color: var(--purple); 
+    transition: 0.3s all;
+}
+
+.attribution a:hover {
+    color: var(--offBlack);
+}
+
+/* Form section */
+form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.column label {
+    color: var(--smokeyGrey);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.column input {
+    display: block;
+    width: 100%;
+    outline: transparent;
+    border: 2px solid var(--lightGrey);
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: var(--poppins);
+    cursor: pointer;
+}
+
+.column input:focus {
+    border: 2px solid var(--purple);
+}
+
+/* Divider section */
+.divider {
+    padding-block: 3rem;
+    position: relative;
+}
+
+.line {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: var(--lightGrey);
+}
+
+svg {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background-color: var(--purple);
+    border-radius: 100%;
+    padding: 0.7rem;
+    transition: 0.3s all;
+}
+
+svg:hover {
+    cursor: pointer;
+    background-color: var(--offBlack);
+}
+
+/* Age display section */
+.age-display {
+    padding-block: 1rem 0;
+}
+
+.age-display p {
+    margin-top: 0;
+    font-size: 45px;
+    font-weight: 800;
+    font-style: italic;
+    line-height: 0.1;
+}
+
+.digits {
+    color: var(--purple);
+}
+
+/* Error messages section */
+input.error-border {
+    border: 2px solid var(--lightRed);
+}
+
+label.error-color,
+.error-color {
+    color: var(--lightRed);
+}
+
+.error-msg {
+    font-size: 7px;
+    font-weight: 400;
+}
+
+/* Responsiveness section */
+@media(min-width: 600px) {
+    body {
+        padding-block: 15rem;
+        height: 95vh;
+    }
+    form {
+        width: 60%;
+    }
+
+    svg {
+        inset: 0 0 0 91%;
+    }
+}
