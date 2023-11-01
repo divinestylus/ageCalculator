@@ -1,4 +1,4 @@
-// Global variables
+/**  Global variables section **/
 const dayField = document.querySelector('[name="day"]');
 const monthField = document.querySelector('[name="month"]');
 const yearField = document.querySelector('[name="year"]');
@@ -19,14 +19,26 @@ const currentDay = new Date().getDate();
 let birthYear, birthMonth, birthDay;
 
 
-// Functions
+/** Functions section **/
+
+/**
+ * This function validates the accuracy of the day passed
+ * @param {number} month - The month of the year
+ * @returns {boolean}
+ */
 function validateDay(month){
     let dayValue = dayField.value;
+
+    /** List of months and days to test against */
     const thirtyMonths = [4, 6, 9, 11];
     const leapMonth = [2];
     const leapDays = [28, 29];
     
-    // Validate empty field, day number, data type and accuracy
+    /** 
+     * Validate against empty field, characters other than numbers, and invalid days
+     * Add error messages with styling 
+     * 
+     */
     if (dayValue === ""){
         addErrorMsg(dayField, "This field is required");
     } else if (parseInt(dayValue) < 1 || parseInt(dayValue) > 31){
@@ -44,10 +56,17 @@ function validateDay(month){
     }
 }
 
+/**
+ * This function validates the accuracy of the month passed
+ * @returns {boolean}
+ */
 function validateMonth(){
     let monthValue = monthField.value;
     
-    // Validate empty field, month number, data type and accuracy
+    /** 
+     * Validate against empty field, characters other than numbers, and invalid months 
+     * Add error messages with styling 
+     */
     if (monthValue === ""){
         addErrorMsg(monthField, "This field is required");
     } else if (parseInt(monthValue) < 1 || parseInt(monthValue) > 12){
@@ -61,15 +80,22 @@ function validateMonth(){
     }
 }
 
+/**
+ * This function validates the accuracy of the year passed
+ * @returns {boolean}
+ */
 function validateYear(){
     let yearValue = yearField.value;
 
-    // Validate empty field, year data type and accuracy
+    /** 
+     * Validate against empty field, characters other than numbers, and years in the future or far past 
+     * Add error messages with styling 
+     */
     if (yearValue === ""){
         addErrorMsg(yearField, "This field is required");
     } else if (parseInt(yearValue) > currentYear){
         addErrorMsg(yearField, "Must be in the past");
-    } else if (parseInt(yearValue) < 1000){
+    } else if (parseInt(yearValue) < 1900){
         addErrorMsg(yearField, "Year must be higher");
     } else if (!numericPattern.test(yearValue)){
         addErrorMsg(yearField, "Numbers only");
@@ -80,7 +106,11 @@ function validateYear(){
     }
 }
 
-// Error messages
+/**
+ * This function adds an error message on the page
+ * @param {string} field - The input feild
+ * @param {string} message - The error message
+ */
 function addErrorMsg(field, message){
     field.classList.add('error-border');
     field.previousElementSibling.classList.add('error-color');
@@ -92,6 +122,10 @@ function addErrorMsg(field, message){
     }
 }
 
+/**
+ * This function removes an error messeage from the page
+ * @param {string} field - the input field
+ */
 function removeErrorMsg(field){
     field.classList.remove('error-border');
     field.previousElementSibling.classList.remove('error-color');
@@ -100,13 +134,16 @@ function removeErrorMsg(field){
     }
 }
 
+/**
+ * This function calculates the age of the user
+ */
 function calculateAge(){
     let ageYear, ageMonth, ageDay;
     ageYear = currentYear - birthYear;
     ageMonth = currentMonth - birthMonth;
     ageDay = currentDay - birthDay;
 
-    // Adjust for negative differences
+    /** Age calculation logic */
     if (ageDay < 0){
         var lastDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate();
         ageMonth--;
@@ -116,6 +153,7 @@ function calculateAge(){
         ageMonth += 12;
     }
 
+    /** Prevent negative numbers */
     if (ageYear < 0){
         ageYear = 0; 
     } if (ageMonth < 0){
@@ -128,6 +166,7 @@ function calculateAge(){
     monthEle.innerText = ageMonth;
     daysEle.innerText = ageDay;
 
+    /** Validate the grammar based on the digit(s) displayed */
     if (ageYear === 1 || ageYear === 0){
         yearsTextEle.innerText = "year";
     } else{
@@ -144,7 +183,7 @@ function calculateAge(){
 }
 
 
-// Listeners
+/** Listeners section */
 button.addEventListener('click', ()=>{
     validateMonth();
     validateYear();
