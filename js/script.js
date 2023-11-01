@@ -1,25 +1,36 @@
-/**  Global variables section **/
-const dayField = document.querySelector('[name="day"]');
-const monthField = document.querySelector('[name="month"]');
-const yearField = document.querySelector('[name="year"]');
-const button = document.querySelector('svg');
-const numericPattern = /^[0-9]+$/;
-const yearsEle = document.querySelector('.years');
-const monthEle = document.querySelector('.month');
-const daysEle = document.querySelector('.days');
+/** Global elements constants section */
+const dayElementField = query('[name="day"]'),
+      monthElementField = query('[name="month"]'),
+      yearElementField = query('[name="year"]'),
+      buttonElement = query('svg'),
+      yearsElement = query('.years'),
+      monthElement = query('.month'),
+      daysElement = query('.days'),
+      yearsElementText = query('.years-text'),
+      monthsElementText = query('.months-text'),
+      daysElementText = query('.days-text');
 
-const yearsTextEle = document.querySelector('.years-text');
-const monthsTextEle = document.querySelector('.months-text');
-const daysTextEle = document.querySelector('.days-text');
+/** Global date and regex contants section */
+const currentYear = new Date().getFullYear(),
+      currentMonth = new Date().getMonth() +1,
+      currentDay = new Date().getDate(),
+      numericPattern = /^[0-9]+$/; /** Regex pattern to search for only numbers (0-9) */
 
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() +1;
-const currentDay = new Date().getDate();
+/** Global birth date variables section */
+let birthYear = undefined, 
+    birthMonth = undefined, 
+    birthDay = undefined;
 
-let birthYear, birthMonth, birthDay;
 
+/** Functions section */
 
-/** Functions section **/
+/**
+ * This is a utility function used to query the DOM 
+ * @param {string} element - This accepts the DOM selectors
+ */
+function query(element){
+    return document.querySelector(element);
+}
 
 /**
  * This function validates the accuracy of the day passed
@@ -27,7 +38,7 @@ let birthYear, birthMonth, birthDay;
  * @returns {boolean}
  */
 function validateDay(month){
-    let dayValue = dayField.value;
+    let dayValue = dayElementField.value;
 
     /** List of months and days to test against */
     const thirtyMonths = [4, 6, 9, 11];
@@ -40,19 +51,20 @@ function validateDay(month){
      * 
      */
     if (dayValue === ""){
-        addErrorMsg(dayField, "This field is required");
+        addErrorMsg(dayElementField, "This field is required");
     } else if (parseInt(dayValue) < 1 || parseInt(dayValue) > 31){
-        addErrorMsg(dayField, "Must be a valid day");
+        addErrorMsg(dayElementField, "Must be a valid day");
     } else if (!numericPattern.test(dayValue)){
-        addErrorMsg(dayField, "Numbers only");
+        addErrorMsg(dayElementField, "Numbers only");
     } else if (thirtyMonths.includes(month) && parseInt(dayValue) > 30){
-        addErrorMsg(dayField, "Must be a valid day");
+        addErrorMsg(dayElementField, "Must be a valid day");
     } else if (leapMonth.includes(month) && !leapDays.includes(parseInt(dayValue))){
-        addErrorMsg(dayField, "Must be a valid day");
+        addErrorMsg(dayElementField, "Must be a valid day");
     } else {
-        removeErrorMsg(dayField);
-        birthDay = parseInt(dayValue);
-        return true;
+        removeErrorMsg(dayElementField);
+        if (birthDay === undefined){
+            birthDay = parseInt(dayValue);
+        } return true;
     }
 }
 
@@ -61,22 +73,23 @@ function validateDay(month){
  * @returns {boolean}
  */
 function validateMonth(){
-    let monthValue = monthField.value;
+    let monthValue = monthElementField.value;
     
     /** 
      * Validate against empty field, characters other than numbers, and invalid months 
      * Add error messages with styling 
      */
     if (monthValue === ""){
-        addErrorMsg(monthField, "This field is required");
+        addErrorMsg(monthElementField, "This field is required");
     } else if (parseInt(monthValue) < 1 || parseInt(monthValue) > 12){
-        addErrorMsg(monthField, "Must be a valid month");
+        addErrorMsg(monthElementField, "Must be a valid month");
     } else if (!numericPattern.test(monthValue)){
-        addErrorMsg(monthField, "Numbers only");
+        addErrorMsg(monthElementField, "Numbers only");
     } else {
-        removeErrorMsg(monthField);
-        birthMonth = parseInt(monthValue);
-        return validateDay(parseInt(monthValue));
+        removeErrorMsg(monthElementField);
+        if (birthMonth === undefined){
+            birthMonth = parseInt(monthValue);
+        } return validateDay(parseInt(monthValue));
     }
 }
 
@@ -85,24 +98,25 @@ function validateMonth(){
  * @returns {boolean}
  */
 function validateYear(){
-    let yearValue = yearField.value;
+    let yearValue = yearElementField.value;
 
     /** 
      * Validate against empty field, characters other than numbers, and years in the future or far past 
      * Add error messages with styling 
      */
     if (yearValue === ""){
-        addErrorMsg(yearField, "This field is required");
+        addErrorMsg(yearElementField, "This field is required");
     } else if (parseInt(yearValue) > currentYear){
-        addErrorMsg(yearField, "Must be in the past");
+        addErrorMsg(yearElementField, "Must be in the past");
     } else if (parseInt(yearValue) < 1900){
-        addErrorMsg(yearField, "Year must be higher");
+        addErrorMsg(yearElementField, "Year must be higher");
     } else if (!numericPattern.test(yearValue)){
-        addErrorMsg(yearField, "Numbers only");
+        addErrorMsg(yearElementField, "Numbers only");
     } else {
-        removeErrorMsg(yearField);
-        birthYear = parseInt(yearValue);
-        return true;
+        removeErrorMsg(yearElementField);
+        if (birthYear === undefined){
+            birthYear = parseInt(yearValue);
+        } return true;
     }
 }
 
@@ -138,14 +152,13 @@ function removeErrorMsg(field){
  * This function calculates the age of the user
  */
 function calculateAge(){
-    let ageYear, ageMonth, ageDay;
-    ageYear = currentYear - birthYear;
-    ageMonth = currentMonth - birthMonth;
-    ageDay = currentDay - birthDay;
+    let ageYear = currentYear - birthYear, 
+        ageMonth = currentMonth - birthMonth,
+        ageDay = currentDay - birthDay;
 
     /** Age calculation logic */
     if (ageDay < 0){
-        var lastDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate();
+        let lastDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate();
         ageMonth--;
         ageDay += lastDayOfMonth;
     } if (ageMonth < 0){
@@ -162,32 +175,43 @@ function calculateAge(){
         ageDay = 0;
     }
 
-    yearsEle.innerText = ageYear;
-    monthEle.innerText = ageMonth;
-    daysEle.innerText = ageDay;
+    yearsElement.innerText = ageYear;
+    monthElement.innerText = ageMonth;
+    daysElement.innerText = ageDay;
 
     /** Validate the grammar based on the digit(s) displayed */
     if (ageYear === 1 || ageYear === 0){
-        yearsTextEle.innerText = "year";
+        yearsElementText.innerText = "year";
     } else{
-        yearsTextEle.innerText = "years";
+        yearsElementText.innerText = "years";
     } if (ageMonth === 1 || ageMonth === 0){
-        monthsTextEle.innerText = "month";
+        monthsElementText.innerText = "month";
     } else{
-        monthsTextEle.innerText = "months";
+        monthsElementText.innerText = "months";
     } if (ageDay === 1 || ageDay === 0){
-        daysTextEle.innerText = "day";
+        daysElementText.innerText = "day";
     } else {
-        daysTextEle.innerText = "days";
+        daysElementText.innerText = "days";
     }
 }
 
-
-/** Listeners section */
-button.addEventListener('click', ()=>{
+/**
+ * This function runs the calculation only if the day, month and year are validated
+ */
+function runCalculation(){
     validateMonth();
     validateYear();
     if (validateMonth() === true && validateYear() === true){
         calculateAge();
     }
-});
+}
+
+
+/** Listeners section */
+document.addEventListener('keyup', (event) =>{
+    if (event.key === "Enter"){
+        runCalculation();
+    }
+})
+
+buttonElement.addEventListener('click', runCalculation);
