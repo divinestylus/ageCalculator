@@ -1,20 +1,20 @@
 /** Global elements constants section */
-const dayElementField = query('[name="day"]'),
-      monthElementField = query('[name="month"]'),
-      yearElementField = query('[name="year"]'),
-      buttonElement = query('svg'),
-      yearsElement = query('.years'),
-      monthElement = query('.month'),
-      daysElement = query('.days'),
-      yearsElementText = query('.years-text'),
-      monthsElementText = query('.months-text'),
-      daysElementText = query('.days-text');
+const DAY_ELEMENT_FIELD = query('[name="day"]'),
+      MONTH_ELEMENT_FIELD = query('[name="month"]'),
+      YEAR_ELEMENT_FIELD = query('[name="year"]'),
+      BUTTON_ELEMENT = query('svg'),
+      YEARS_ELEMENT = query('.years'),
+      MONTHS_ELEMENT = query('.month'),
+      DAYS_ELEMENT = query('.days'),
+      YEARS_ELEMENT_TEXT = query('.years-text'),
+      MONTHS_ELEMENT_TEXT = query('.months-text'),
+      DAYS_ELEMENT_TEXT = query('.days-text');
 
 /** Global date and regex contants section */
-const currentYear = new Date().getFullYear(),
-      currentMonth = new Date().getMonth() +1,
-      currentDay = new Date().getDate(),
-      numericPattern = /^[0-9]+$/; /** Regex pattern to search for only numbers (0-9) */
+const CURRENT_YEAR = new Date().getFullYear(),
+      CURRENT_MONTH = new Date().getMonth() +1,
+      CURRENT_DAY = new Date().getDate(),
+      NUMERIC_PATTERN = /^[0-9]+$/; /** Regex pattern to search for only numbers (0-9) */
 
 /** Global birth date variables section */
 let birthYear = undefined, 
@@ -25,12 +25,15 @@ let birthYear = undefined,
 /** Functions section */
 
 /**
- * This is an IIFE function that resets the the input fields when the page loads
+ * This is an IIFE that resets the the input fields when the page loads
  */
-(function reset(){
-    dayElementField.value = "";
-    monthElementField.value = "";
-    yearElementField.value = "";
+(function resetAgeDisplay(){
+    DAY_ELEMENT_FIELD.value = "";
+    MONTH_ELEMENT_FIELD.value = "";
+    YEAR_ELEMENT_FIELD.value = "";
+    DAYS_ELEMENT.innerText = "- -";
+    MONTHS_ELEMENT.innerText = "- -";
+    YEARS_ELEMENT.innerText = "- -";
 })();
 
 /**
@@ -47,30 +50,28 @@ function query(element){
  * @returns {boolean}
  */
 function validateDay(month){
-    let dayValue = dayElementField.value;
+    let dayValue = DAY_ELEMENT_FIELD.value;
 
     /** List of months and days to test against */
-    const thirtyMonths = [4, 6, 9, 11];
-    const leapMonth = [2];
-    const leapDays = [28, 29];
+    const THIRTY_MONTHS = [4, 6, 9, 11];
+    const LEAP_MONTH = [2];
     
     /** 
      * Validate against empty field, characters other than numbers, and invalid days
      * Add error messages with styling 
-     * 
      */
     if (dayValue === ""){
-        addErrorMsg(dayElementField, "This field is required");
+        addErrorMsg(DAY_ELEMENT_FIELD, "This field is required");
     } else if (parseInt(dayValue) < 1 || parseInt(dayValue) > 31){
-        addErrorMsg(dayElementField, "Must be a valid day");
-    } else if (!numericPattern.test(dayValue)){
-        addErrorMsg(dayElementField, "Numbers only");
-    } else if (thirtyMonths.includes(month) && parseInt(dayValue) > 30){
-        addErrorMsg(dayElementField, "Must be a valid day");
-    } else if (leapMonth.includes(month) && parseInt(dayValue) > 29){
-        addErrorMsg(dayElementField, "Must be a valid day");
+        addErrorMsg(DAY_ELEMENT_FIELD, "Must be a valid day");
+    } else if (!NUMERIC_PATTERN.test(dayValue)){
+        addErrorMsg(DAY_ELEMENT_FIELD, "Numbers only");
+    } else if (THIRTY_MONTHS.includes(month) && parseInt(dayValue) > 30){
+        addErrorMsg(DAY_ELEMENT_FIELD, "Must be a valid day");
+    } else if (LEAP_MONTH.includes(month) && parseInt(dayValue) > 29){
+        addErrorMsg(DAY_ELEMENT_FIELD, "Must be a valid day");
     } else {
-        removeErrorMsg(dayElementField);
+        removeErrorMsg(DAY_ELEMENT_FIELD);
         birthDay = parseInt(dayValue);
         return true;
     }
@@ -81,20 +82,20 @@ function validateDay(month){
  * @returns {boolean}
  */
 function validateMonth(){
-    let monthValue = monthElementField.value;
+    let monthValue = MONTH_ELEMENT_FIELD.value;
     
     /** 
      * Validate against empty field, characters other than numbers, and invalid months 
      * Add error messages with styling 
      */
     if (monthValue === ""){
-        addErrorMsg(monthElementField, "This field is required");
+        addErrorMsg(MONTH_ELEMENT_FIELD, "This field is required");
     } else if (parseInt(monthValue) < 1 || parseInt(monthValue) > 12){
-        addErrorMsg(monthElementField, "Must be a valid month");
-    } else if (!numericPattern.test(monthValue)){
-        addErrorMsg(monthElementField, "Numbers only");
+        addErrorMsg(MONTH_ELEMENT_FIELD, "Must be a valid month");
+    } else if (!NUMERIC_PATTERN.test(monthValue)){
+        addErrorMsg(MONTH_ELEMENT_FIELD, "Numbers only");
     } else {
-        removeErrorMsg(monthElementField);
+        removeErrorMsg(MONTH_ELEMENT_FIELD);
         birthMonth = parseInt(monthValue);
         return validateDay(parseInt(monthValue));
     }
@@ -105,22 +106,22 @@ function validateMonth(){
  * @returns {boolean}
  */
 function validateYear(){
-    let yearValue = yearElementField.value;
+    let yearValue = YEAR_ELEMENT_FIELD.value;
 
     /** 
      * Validate against empty field, characters other than numbers, and years in the future or far past 
      * Add error messages with styling 
      */
     if (yearValue === ""){
-        addErrorMsg(yearElementField, "This field is required");
-    } else if (parseInt(yearValue) > currentYear){
-        addErrorMsg(yearElementField, "Must be in the past");
+        addErrorMsg(YEAR_ELEMENT_FIELD, "This field is required");
+    } else if (parseInt(yearValue) > CURRENT_YEAR){
+        addErrorMsg(YEAR_ELEMENT_FIELD, "Must be in the past");
     } else if (parseInt(yearValue) < 1900){
-        addErrorMsg(yearElementField, "Year must be higher");
-    } else if (!numericPattern.test(yearValue)){
-        addErrorMsg(yearElementField, "Numbers only");
+        addErrorMsg(YEAR_ELEMENT_FIELD, "Year must be higher");
+    } else if (!NUMERIC_PATTERN.test(yearValue)){
+        addErrorMsg(YEAR_ELEMENT_FIELD, "Numbers only");
     } else {
-        removeErrorMsg(yearElementField);
+        removeErrorMsg(YEAR_ELEMENT_FIELD);
         birthYear = parseInt(yearValue);
         return true;
     }
@@ -158,9 +159,9 @@ function removeErrorMsg(field){
  * This function calculates the age of the user
  */
 function calculateAge(){
-    let ageYear = currentYear - birthYear, 
-        ageMonth = currentMonth - birthMonth,
-        ageDay = currentDay - birthDay;
+    let ageYear = CURRENT_YEAR - birthYear, 
+        ageMonth = CURRENT_MONTH - birthMonth,
+        ageDay = CURRENT_DAY - birthDay;
 
     /** Age calculation logic */
     if (ageDay < 0){
@@ -181,23 +182,23 @@ function calculateAge(){
         ageDay = 0;
     }
 
-    yearsElement.innerText = ageYear;
-    monthElement.innerText = ageMonth;
-    daysElement.innerText = ageDay;
+    YEARS_ELEMENT.innerText = ageYear;
+    MONTHS_ELEMENT.innerText = ageMonth;
+    DAYS_ELEMENT.innerText = ageDay;
 
     /** Validate the grammar based on the digit(s) displayed */
     if (ageYear === 1 || ageYear === 0){
-        yearsElementText.innerText = "year";
+        YEARS_ELEMENT_TEXT.innerText = "year";
     } else{
-        yearsElementText.innerText = "years";
+        YEARS_ELEMENT_TEXT.innerText = "years";
     } if (ageMonth === 1 || ageMonth === 0){
-        monthsElementText.innerText = "month";
+        MONTHS_ELEMENT_TEXT.innerText = "month";
     } else{
-        monthsElementText.innerText = "months";
+        MONTHS_ELEMENT_TEXT.innerText = "months";
     } if (ageDay === 1 || ageDay === 0){
-        daysElementText.innerText = "day";
+        DAYS_ELEMENT_TEXT.innerText = "day";
     } else {
-        daysElementText.innerText = "days";
+        DAYS_ELEMENT_TEXT.innerText = "days";
     }
 }
 
@@ -205,9 +206,7 @@ function calculateAge(){
  * This function runs the calculation only if the day, month and year are validated
  */
 function runCalculation(){
-    validateMonth();
-    validateYear();
-    if (validateMonth() === true && validateYear() === true){
+    if (validateMonth() && validateYear()){
         calculateAge();
     }
 }
@@ -220,4 +219,4 @@ document.addEventListener('keyup', (event) =>{
     }
 })
 
-buttonElement.addEventListener('click', runCalculation);
+BUTTON_ELEMENT.addEventListener('click', runCalculation);
