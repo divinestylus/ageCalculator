@@ -75,6 +75,7 @@ function validateDay(month){
         birthDay = parseInt(dayValue);
         return true;
     }
+    return false;
 }
 
 /**
@@ -99,6 +100,7 @@ function validateMonth(){
         birthMonth = parseInt(monthValue);
         return validateDay(parseInt(monthValue));
     }
+    return false;
 }
 
 /**
@@ -125,6 +127,7 @@ function validateYear(){
         birthYear = parseInt(yearValue);
         return true;
     }
+    return false;
 }
 
 /**
