@@ -43,7 +43,7 @@ body {
     background-color: var(--white);
     padding: 2rem 1.5rem;
     border-radius: 20px 20px 100px 20px;
-    max-width: 600px;
+    max-width: 660px;
 }
 
 /* Attribution section */
@@ -167,6 +167,6 @@ label.error-color,
     }
 
     svg {
-        inset: 0 0 0 91%;
+        inset: 0 0 0 92%;
     }
 }
