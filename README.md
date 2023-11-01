@@ -43,6 +43,9 @@ Users should be able to:
 
 - [Chat GPT](https://www.chat.openai.com) - I used it to show me how to accurately calculate the years, months and days.
 
+## Acknowledgement
+I want to appreciate [Carlos Nah](https://github.com/RA9) for his insights on how to effectively structure my code and how to create and use utility functions for efficiency.
+
 ## Author
 ### Sam B. Morris
 - Codewars - [@divinestylus](https://www.codewars.com/users/divinestylus)
