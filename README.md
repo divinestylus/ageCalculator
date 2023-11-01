@@ -1,7 +1,7 @@
-# Frontend Mentor - Age Calculator App Solution
+# Age Calculator App (Frontend Mentor)
 ## Challenge #001
 
-![Design preview for the Age calculator app coding challenge](./design/desktop-preview.jpg)
+![Design preview for the Age calculator app coding challenge](./assets/page-view.png)
 
 ## Welcome 👋
 This is a solution to the [Age calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q). This is my 1<sup>st</sup>  User Interface (UI) component challenge.
