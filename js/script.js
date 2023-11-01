@@ -25,6 +25,15 @@ let birthYear = undefined,
 /** Functions section */
 
 /**
+ * This is an IIFE function that resets the the input fields when the page loads
+ */
+(function reset(){
+    dayElementField.value = "";
+    monthElementField.value = "";
+    yearElementField.value = "";
+})();
+
+/**
  * This is a utility function used to query the DOM 
  * @param {string} element - This accepts the DOM selectors
  */
@@ -58,13 +67,12 @@ function validateDay(month){
         addErrorMsg(dayElementField, "Numbers only");
     } else if (thirtyMonths.includes(month) && parseInt(dayValue) > 30){
         addErrorMsg(dayElementField, "Must be a valid day");
-    } else if (leapMonth.includes(month) && !leapDays.includes(parseInt(dayValue))){
+    } else if (leapMonth.includes(month) && parseInt(dayValue) > 29){
         addErrorMsg(dayElementField, "Must be a valid day");
     } else {
         removeErrorMsg(dayElementField);
-        if (birthDay === undefined){
-            birthDay = parseInt(dayValue);
-        } return true;
+        birthDay = parseInt(dayValue);
+        return true;
     }
 }
 
@@ -87,9 +95,8 @@ function validateMonth(){
         addErrorMsg(monthElementField, "Numbers only");
     } else {
         removeErrorMsg(monthElementField);
-        if (birthMonth === undefined){
-            birthMonth = parseInt(monthValue);
-        } return validateDay(parseInt(monthValue));
+        birthMonth = parseInt(monthValue);
+        return validateDay(parseInt(monthValue));
     }
 }
 
@@ -114,9 +121,8 @@ function validateYear(){
         addErrorMsg(yearElementField, "Numbers only");
     } else {
         removeErrorMsg(yearElementField);
-        if (birthYear === undefined){
-            birthYear = parseInt(yearValue);
-        } return true;
+        birthYear = parseInt(yearValue);
+        return true;
     }
 }
 
